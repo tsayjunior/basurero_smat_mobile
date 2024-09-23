@@ -76,7 +76,9 @@ const Login = ({ navigation }) => {
                 </Animatable.View>
                 <Animatable.View
                     style={loginStyles.contain_footer}
-                    animation="bounceIn"
+                    animation="pulse"
+                    iterationCount="infinite" // Para repetir la animación infinitamente
+                    duration={1500} // Duración de la animación
                 >
                     <Button
                         onPress={() => { login_auth() }}
