@@ -8,21 +8,22 @@ import TextInputForm from '../../components/form/TextInputForm'
 import useInput from '../../utils/FormText'
 import { Button } from '@rneui/base'
 
-const login = () => {
+const Login = ({ navigation }) => {
     const [hidePassword, setHidePassword] = useState(true);
     const [buttonLoading, setButtonLoading] = useState(false)
     const username = useInput('');
     const password = useInput('');
 
     const redirectToSignin = () => {
-        // navigation.navigate('Signin');
+        console.log(' ingresa a registrar usuario');
+        navigation.navigate('RegisterUser');
     }
 
     const login_auth = () => {
         setButtonLoading(true);
         setTimeout(() => {
             setButtonLoading(false)
-            console.log(' ingresa a login', username.value, ' error => ', username.valueError);
+            console.log(' ingresa a L', username.value, ' error => ', username.valueError);
             username.onChangeError('Usuario incorrecto')
             password.onChangeError('Contraseña incorrecta')
         }, 3000);
@@ -121,4 +122,4 @@ const login = () => {
   )
 }
 
-export default login
+export default Login
