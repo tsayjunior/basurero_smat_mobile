@@ -43,6 +43,21 @@ const TextInputForm = (props) => {
             onChangeText={props.onChangeText}
             value={props.value}
         />
+        {/* {props.bolError && (
+            <Animatable.Text
+                    animation="pulse" 
+                    iterationCount="infinite"
+                    style={{
+                        color: Colors.RED,
+                    fontSize: 20,
+                    fontWeight: 'bold',
+                    width: '100%', 
+                    marginTop: 5, 
+                    textAlign: 'left', 
+                }}>
+                {props.strError}
+            </Animatable.Text>
+        )} */}
     </View>
     )
 };

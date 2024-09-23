@@ -19,9 +19,15 @@ const login = () => {
     }
 
     const login_auth = () => {
-        console.log(' ingresa a login', username.value, ' error => ', username.valueError);
-        username.onChangeError('Usuario incorrecto')
-        password.onChangeError('Contraseña incorrecta')
+        setButtonLoading(true);
+        setTimeout(() => {
+            setButtonLoading(false)
+            console.log(' ingresa a login', username.value, ' error => ', username.valueError);
+            username.onChangeError('Usuario incorrecto')
+            password.onChangeError('Contraseña incorrecta')
+        }, 3000);
+        username.onChangeError('')
+        password.onChangeError('')
     }
   return (
     <SafeAreaView style={{ flex: 1, marginTop: StatusBar.currentHeight || 0 }}>
