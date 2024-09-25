@@ -4,12 +4,15 @@ import { Provider } from 'react-redux';
 import store from './src/redux/store';
 import AuthNavigator from './src/components/authentication/AuthNavigator';
 
+import Toast from 'react-native-toast-message';
+
 export default function App() {
   return (
     <View style={styles.container}>
       <StatusBar style="light" backgroundColor={Colors.RED} />
       <Provider store={store}>
         <AuthNavigator/>
+        <Toast />
       </Provider>
     </View>
   );

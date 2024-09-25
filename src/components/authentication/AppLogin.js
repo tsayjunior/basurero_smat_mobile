@@ -11,7 +11,7 @@ const AppLogin = () => {
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Login">
         <Stack.Screen name="Login" component={Login} options={{headerShown: false }} />
-        <Stack.Screen name="RegisterUser" component={RegisterUser} />
+        <Stack.Screen name="RegisterUser" component={RegisterUser} options={{headerShown: false }}  />
       </Stack.Navigator>
     </NavigationContainer>
   );
