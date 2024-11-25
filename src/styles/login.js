@@ -34,7 +34,7 @@ export default StyleSheet.create({
       width: 280,
       marginTop: 0,
       marginBottom: 0,
-      backgroundColor: Colors.RED,
+      backgroundColor: Colors.LETTUCE_GREEN_DARK,
       borderRadius: 18
   },
   txtTransparent: {
