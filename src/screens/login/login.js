@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { KeyboardAvoidingView, Platform, SafeAreaView, ScrollView, View, TouchableOpacity, Text } from 'react-native'
+import { KeyboardAvoidingView, Platform, SafeAreaView, ScrollView, View, TouchableOpacity, Text, StyleSheet } from 'react-native'
 import loginStyles from '../../styles/login'
 import { StatusBar } from 'expo-status-bar'
 import LottieView from 'lottie-react-native'
@@ -13,16 +13,35 @@ import { useDispatch, useSelector } from 'react-redux'
 import { setToken } from '../../redux/slices/tokenSlice'
 import { authenticate } from '../../redux/slices/authSlice'
 import { getToken, storeToken } from '../../storage/dataStorage'
+import commonStyles from '../../styles/commonStyles'
+import Colors from '../../utils/Colors'
 
 const Login = ({ navigation }) => {
     const [hidePassword, setHidePassword] = useState(true);
     const [buttonLoading, setButtonLoading] = useState(false)
     const [token, setearToken] = useState(useSelector((state) => state.token.token))
-    const username = useInput('wfarel');
-    const password = useInput('wf12345*');
+    const username = useInput('');
+    const password = useInput('');
     const dispatch = useDispatch();
+    const [registerGood, setRegisterGood] = useState(false);
+    const [visible, setVisible] = useState(false);
     // const token = useSelector((state) => state.token.token);
 
+    const showAlert = () => {
+        setVisible(true);
+      };
+    
+      const hideAlert = () => {
+        setVisible(false);
+      };
+    
+      const showregisterGood = () => {
+        setRegisterGood(true);
+      };
+    
+      const hideregisterGood = () => {
+        setRegisterGood(false);
+      };
     const redirectToSignin = () => {
         console.log(' ingresa a registrar usuario');
         navigation.navigate('RegisterUser');
@@ -47,6 +66,7 @@ const Login = ({ navigation }) => {
   const login_user = () => {
     setButtonLoading(true);
     console.log('ingresa a login user xd', username.value, password.value, URL_LOGIN);
+    username.onChangeError('');
     axios.post( URL_LOGIN,
         {
             username : username.value,
@@ -66,13 +86,20 @@ const Login = ({ navigation }) => {
       .catch(error => {
         setButtonLoading(false)
         console.log('****************************** error en login *************************************', URL_LOGIN);
-        console.error(error);
-        console.error(error.response.data);
+        console.log(' response data del erro ', error.response.data);
+
+        // console.error(error);
+        if(error.response.data.detail == 'No active account found with the given credentials'){
+            console.log(error.response.data.detail);
+            username.onChangeError('usuario o contraseñas incorrectos !!!');
+        }else{
+            username.onChangeError('Ocurrió un error, intente nuevamente');
+        }
         // Maneja el error de manera apropiada, muestra un mensaje de error, etc.
       });
     };
   return (
-    <SafeAreaView style={{ flex: 1, marginTop: StatusBar.currentHeight || 0 }}>
+    <SafeAreaView style={[{ flex: 1, marginTop: StatusBar.currentHeight || 0 }, commonStyles.container]}>
         <KeyboardAvoidingView
             style={{ flex: 1 }}
             behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -165,4 +192,65 @@ const Login = ({ navigation }) => {
   )
 }
 
+const styles = StyleSheet.create({
+    animatableView: {
+      position: 'absolute', // Asegura que ambos ScrollView ocupen la misma posición
+      top: 0, // Se puede ajustar si es necesario
+      left: 0,
+      right: 0,
+      bottom: 0,
+    },
+    imageGallery: {
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+      justifyContent: 'center',
+      marginTop: 20,
+    },
+    imageContainer: {
+      margin: 5,
+    },
+    image: {
+      width: 150,
+      height: 150,
+      borderRadius: 10,
+    },
+    // image: {
+    //   width: 200,
+    //   height: 200,
+    //   marginTop: 20,
+    //   borderRadius: 10,
+    // },
+    deleteButton: {
+      position: 'absolute',
+      top: 5,
+      right: 5,
+      backgroundColor: Colors.LETTUCE_GREEN_DARK,
+      borderRadius: 15,
+      padding: 5,
+    },
+    dialog: {
+      borderRadius: 15,
+      backgroundColor: '#F7F8FA', // Fondo claro y moderno
+      elevation: 4, // Sombra para mayor profundidad
+    },
+    dialogTitle: {
+      fontSize: 20,
+      fontWeight: 'bold',
+      textAlign: 'center',
+      color: '#333', // Título en color oscuro
+    },
+    dialogContent: {
+      fontSize: 16,
+      textAlign: 'center',
+      color: '#555', // Texto ligeramente gris
+      marginVertical: 10,
+    },
+    dialogActions: {
+      justifyContent: 'space-evenly', // Botones espaciados uniformemente
+    },
+    buttonTextDialog: {
+      fontSize: 14,
+      fontWeight: 'bold',
+    },
+  });
 export default Login

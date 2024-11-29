@@ -14,5 +14,5 @@ export default {
     primary: '#fe5000',//rojo
     secundary: '#ffc72c',//naranja
     // GREEN: '#2ABC1D'
-
+    SOFT_BACKGROUND: '#e0f7fa',
 };

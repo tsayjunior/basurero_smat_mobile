@@ -13,6 +13,9 @@ import { Icon } from '@rneui/themed';
 import * as ImagePicker from 'expo-image-picker';
 import { FlatList } from 'react-native'
 import { MaterialIcons } from '@expo/vector-icons'; // Paquete de íconos
+import axios from 'axios';
+import { URL_REGISTER } from '../../utils/Config'
+import { Card, Title, Paragraph, IconButton, Dialog } from 'react-native-paper';
 
 const RegisterUser = ({ navigation }) => {
   const [progress, setProgress] = useState(0.00);
@@ -23,10 +26,27 @@ const RegisterUser = ({ navigation }) => {
   const [showFirstScroll, setShowFirstScroll] = useState(true);
   const [showFirstScrollReview, setShowFirstScrollReview] = useState(true);
   const [images, setImages] = useState([]);
+  const [isLoading, setIsLoading] = useState(false); // El estado de carga
+  const [registerGood, setRegisterGood] = useState(false);
+  const [visible, setVisible] = useState(false);
 
   const [image, setImage] = useState(null); // Estado para almacenar la imagen seleccionada
 
+  const showAlert = () => {
+    setVisible(true);
+  };
 
+  const hideAlert = () => {
+    setVisible(false);
+  };
+
+  const showregisterGood = () => {
+    setRegisterGood(true);
+  };
+
+  const hideregisterGood = () => {
+    setRegisterGood(false);
+  };
 
   const progressLineAdd = (quantity) => {
     let currentProgress = +progress;
@@ -131,16 +151,57 @@ const RegisterUser = ({ navigation }) => {
   };
   const createAcount = () =>{
     console.log('ingresa a crear cuenta');
-    console.log(images);
-    console.log(image);
-    console.log(username.value);
-    console.log(password.value);
-    console.log(repeatPassword.value);
-
-    // navigation.navigate('Login')
+    // console.log(image);
+    // console.log(username.value);
+    // console.log(password.value);
+    // console.log(repeatPassword.value);
+    
+    const formData = new FormData();
+    images.forEach((element, index) => {
+      let titleaux= index == 0? '' : ''+(index + 1);
+      let title = 'image_perfil' + titleaux;
+      formData.append( title, {
+        uri: element,
+        type: 'text/plain', // Ajusta el tipo de imagen según corresponda
+        name: 'img_perfil.jpg', // Ajusta el nombre del archivo según corresponda
+        });
+      
+    });
+    // formData.append('image_perfil2', {
+    //   uri: images[1],
+    //   type: 'text/plain', // Ajusta el tipo de imagen según corresponda
+    //   name: 'img_perfil.jpg', // Ajusta el nombre del archivo según corresponda
+    //   });
+    // formData.append('image_perfil3', {
+    //   uri: images[2],
+    //   type: 'text/plain', // Ajusta el tipo de imagen según corresponda
+    //   name: 'img_perfil.jpg', // Ajusta el nombre del archivo según corresponda
+    //   });
+    formData.append('username', username.value);
+    formData.append('password', password.value);
+    console.log(formData);
+    axios.post(URL_REGISTER, formData, {
+        headers: {
+            'Content-Type': 'multipart/form-data',
+        },
+    })
+        .then(({data}) => {
+          console.log('Lo que devuelve el register ', data);
+          showregisterGood();
+        })
+        .catch(error => {
+          console.log(error);
+          console.log('ingrsa',  error.response.data);
+          showAlert();
+          // setLoading(false);
+        });
+  }
+  const creation_good = () => {
+    hideregisterGood();
+    navigation.navigate('Login');
   }
   return (
-    <View style={{flex: 1}}>
+    <View style={{flex: 1, backgroundColor: Colors.SOFT_BACKGROUND, paddingHorizontal: 15,}}>
       <Header title="Crear Nueva cuenta"></Header>
 
 
@@ -269,6 +330,34 @@ const RegisterUser = ({ navigation }) => {
           <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 20}}>{showFirstScrollReview? 'Siguiente' : 'Crear'}</Text>
         </TouchableOpacity>
       </View>
+      
+      <Dialog visible={registerGood} onDismiss={hideregisterGood} style={styles.dialog}>
+        <Dialog.Title style={styles.dialogTitle}>✔️ ¡Éxito!</Dialog.Title>
+        <Dialog.Content>
+          <Paragraph style={styles.dialogContent}>
+          El usuario se Creó correctamente !!!
+          </Paragraph>
+        </Dialog.Content>
+        <Dialog.Actions style={styles.dialogActions}>
+          <Button onPress={()=> creation_good()} textColor="#4CAF50" labelStyle={styles.buttonTextDialog}>
+            Aceptar
+          </Button>
+        </Dialog.Actions>
+      </Dialog>
+      
+      <Dialog visible={visible} onDismiss={hideAlert} style={styles.dialog}>
+        <Dialog.Title style={styles.dialogTitle}>⚠️ Advertencia</Dialog.Title>
+        <Dialog.Content>
+          <Paragraph style={styles.dialogContent}>
+            Ha ocurrido un error al intentar registrar usuario
+          </Paragraph>
+        </Dialog.Content>
+        <Dialog.Actions style={styles.dialogActions}>
+          <Button onPress={hideAlert} textColor="#4CAF50" labelStyle={styles.buttonTextDialog}>
+            Aceptar
+          </Button>
+        </Dialog.Actions>
+      </Dialog>
     </View>
   )
 }
@@ -308,6 +397,30 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.LETTUCE_GREEN_DARK,
     borderRadius: 15,
     padding: 5,
+  },
+  dialog: {
+    borderRadius: 15,
+    backgroundColor: '#F7F8FA', // Fondo claro y moderno
+    elevation: 4, // Sombra para mayor profundidad
+  },
+  dialogTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    color: '#333', // Título en color oscuro
+  },
+  dialogContent: {
+    fontSize: 16,
+    textAlign: 'center',
+    color: '#555', // Texto ligeramente gris
+    marginVertical: 10,
+  },
+  dialogActions: {
+    justifyContent: 'space-evenly', // Botones espaciados uniformemente
+  },
+  buttonTextDialog: {
+    fontSize: 14,
+    fontWeight: 'bold',
   },
 });
 export default RegisterUser

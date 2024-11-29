@@ -5,6 +5,8 @@ import Login from '../../screens/login/Login';
 import RegisterUser from '../../screens/register/RegisterUser';
 import Init from '../../screens/init/Init';
 import ButtonTab from './ButtonTab';
+import Rewards from '../../screens/rewards/Rewards';
+import ReclaimRewards from '../../screens/reclaimRewards/ReclaimRewards';
 
 const Stack = createNativeStackNavigator();
 const myConfig = {
@@ -22,7 +24,7 @@ const myConfig = {
   ), */
   // cardStyle: { backgroundColor: 'red' },
 };
-const InitStack = () => {
+const InitStack = ({ navigation }) => {
   useEffect(() => {
     // setearToken(getToken());
     // if(token != null){
@@ -35,6 +37,8 @@ const InitStack = () => {
       <Stack.Navigator initialRouteName="Root"  screenOptions={myConfig}>
         <Stack.Screen name="Root" component={ButtonTab} />
         <Stack.Screen name="Init" component={Init} options={{headerShown: false }} />
+        <Stack.Screen name="Rewards" component={Rewards} options={{headerShown: false }} />
+        <Stack.Screen name="ReclaimRewards" component={ReclaimRewards} options={{headerShown: false }} />
         {/* <Stack.Screen name="RegisterUser" component={RegisterUser} options={{headerShown: false }}  /> */}
       </Stack.Navigator>
     </NavigationContainer>

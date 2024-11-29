@@ -29,11 +29,19 @@ const styles = StyleSheet.create({
   headerContainer: {
     marginTop: 10,
     height: 60,
-    backgroundColor: '#fff', // Fondo blanco minimalista
+    // backgroundColor: '#fff', // Fondo blanco minimalista
     justifyContent: 'center',
     alignItems: 'center',
     borderBottomWidth: 1, // Línea sutil en la parte inferior
     borderBottomColor: '#e0e0e0', // Color neutro para la línea
+    // borderRadius: 30,
+    
+    marginBottom: 20,
+    borderRadius: 15,
+    elevation: 5,
+    backgroundColor: '#ffffff', // Fondo blanco para las tarjetas
+    borderLeftWidth: 5,
+    borderColor: '#00796b', // Un borde de color verde para resaltar
   },
   headerTitle: {
     fontSize: 20,

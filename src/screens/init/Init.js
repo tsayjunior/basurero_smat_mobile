@@ -10,6 +10,7 @@ import { deleteToken, getToken, storeToken } from '../../storage/dataStorage';
 import { setToken } from '../../redux/slices/tokenSlice';
 import { logout } from '../../redux/slices/authSlice';
 import Header from '../../components/Header';
+import { clearUser, setUser } from '../../redux/slices/userSlice';
 
 const data = [
   {
@@ -95,18 +96,19 @@ const Init = ({ navigation }) => {
     
     dispatch(setToken(token));
     dispatch(logout());
+    dispatch(clearUser());
   }
   const renderItem = ({ item }) => (
     <Card style={styles.card}>
       <Card.Content>
         <View style={styles.cardHeader}>
           <Title style={styles.basureroTitle}>{item.container.name}</Title>
-          <IconButton
+          {/* <IconButton
             icon="trash-can"
             color="#f44336"
             size={24}
             onPress={() => console.log('Acción de basura')}
-          />
+          /> */}
         </View>
 
         <Paragraph style={styles.itemText}>
@@ -134,17 +136,20 @@ const Init = ({ navigation }) => {
     })
         .then(({data}) => {
             setRefreshing(false);
-            console.log(data);
-            setData_transaction(data);
+            if(data.length != 0){
+              dispatch(setUser({ user_id: data[0].id, points: data[0].user.total_points }));
+              setData_transaction(data);
+            }
+            console.log(data, data[0].id, data[0].user.total_points);
         })
         .catch(error => {
             setRefreshing(false);
-            console.log(error.response.data.code);
+            console.log('ingera a errot ', error.response);
             if(error.response.data.code == 'token_not_valid'){
               showAlert();
             }
         });
-}
+  }
 
   return (
     <View style={styles.container}>
@@ -186,6 +191,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: 15,
+    paddingBottom: 65,
     backgroundColor: '#e0f7fa', // Un fondo suave
   },
   list: {

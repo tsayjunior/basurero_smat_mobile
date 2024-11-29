@@ -5,7 +5,7 @@ export default StyleSheet.create({
   container: {
     flexGrow: 1,
     justifyContent: 'center',
-    backgroundColor: Colors.WHITE_FONDO
+    backgroundColor: Colors.SOFT_BACKGROUND
   },
   contain_logo: {
       // backgroundColor:Colors.BLACK,

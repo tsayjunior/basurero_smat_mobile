@@ -17,6 +17,9 @@ import Init from "../../screens/init/Init";
 import Colors from "../../utils/Colors";
 import Icon, { Icons } from "../Icons";
 import Perfil from "../../screens/perfil/Perfil";
+import Rewards from "../../screens/rewards/Rewards";
+import ReclaimRewards from "../../screens/reclaimRewards/ReclaimRewards";
+import Notification from "../../screens/notification/Notification";
 // import { colors } from "react-native-elements";
 // import { UsuarioContext } from "../Context/UsuarioContext";
 // import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
@@ -93,16 +96,16 @@ const TabArr = [
     type: Icons.MaterialCommunityIcons,
     activeIcon: "heart-plus",
     inActiveIcon: "heart-plus-outline",
-    component: Perfil,
+    component: Rewards,
     titleApp: 'Perfil2',
   },
   {
     route: "Like",
     label: "Like",
     type: Icons.MaterialCommunityIcons,
-    activeIcon: "heart-plus",
-    inActiveIcon: "heart-plus-outline",
-    component: Perfil,
+    activeIcon: "gift",
+    inActiveIcon: "gift-outline",
+    component: ReclaimRewards,
     titleApp: 'Perfil',
   },
   {
@@ -111,7 +114,7 @@ const TabArr = [
     type: Icons.MaterialCommunityIcons,
     activeIcon: "timeline-plus",
     inActiveIcon: "timeline-plus-outline",
-    component: Perfil,
+    component: Notification,
     titleApp: 'Logout',
   },
   {

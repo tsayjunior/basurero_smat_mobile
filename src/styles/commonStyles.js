@@ -5,6 +5,6 @@ export default StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: 15,
-    backgroundColor: '#e0f7fa', // Un fondo suave
+    backgroundColor: Colors.SOFT_BACKGROUND, // Un fondo suave
   },
 });
